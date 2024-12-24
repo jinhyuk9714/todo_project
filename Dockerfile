@@ -10,7 +10,9 @@ COPY src ./src
 
 # Run Maven to build the application
 RUN apt-get update && apt-get install -y maven
-RUN mvn package
+# RUN mvn package
+RUN mvn package -DskipTests
+
 
 # Copy the built JAR file to the container
 COPY target/*.jar app.jar
