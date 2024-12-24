@@ -8,7 +8,7 @@ services:
       - db
     command: ["/app/wait-for-it.sh", "db:3306", "--timeout=30", "--strict", "--", "java", "-jar", "app.jar"]
     networks:
-      - app-network
+      - todo_app-network
 
   db:
     image: mariadb:latest
@@ -22,7 +22,8 @@ services:
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
-      - app-network
+      - todo_app-network
 
 networks:
-  app-network:
+  todo_app-network:
+    external: true
