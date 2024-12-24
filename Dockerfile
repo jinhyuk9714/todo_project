@@ -1,23 +1,16 @@
-# Use a base image with Java and OpenJDK
-FROM openjdk:17-jdk-slim
-
-# Set the working directory in the container
+# Stage 1: Build the application
+FROM maven:3.9.1-eclipse-temurin-17 AS build
 WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Copy the pom.xml and source code to the container
-COPY pom.xml .
-COPY src ./src
-
-# Run Maven to build the application
-RUN apt-get update && apt-get install -y maven
-RUN mvn clean package
-
-
-# Copy the built JAR file to the container
-COPY target/*.jar app.jar
-
-# Expose the port the application will run on
+# Stage 2: Run the application
+FROM eclipse-temurin:17-jre
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]
 
-# Command to run the application
-CMD ["java", "-jar", "app.jar"]
+# wait-for-it.sh 실행 권한 추가
+COPY wait-for-it.sh /app/wait-for-it.sh
+RUN chmod +x /app/wait-for-it.sh
