@@ -1,15 +1,16 @@
 version: '3.8'
+
 services:
   app:
-    image: todo-app-with-utils
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
     depends_on:
-      db:
-        condition: service_healthy  # db가 건강 상태를 만족해야 시작
+      - db
     networks:
-      - todo_app-network
-    command: ["/app/wait-for-it.sh", "db:3306", "--timeout=30", "--strict", "--", "java", "-jar", "app.jar"]
+      - todo_network
 
   db:
     image: mariadb:latest
@@ -23,13 +24,8 @@ services:
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
-      - todo_app-network
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      - todo_network
 
 networks:
-  todo_app-network:
-    external: true
+  todo_network:
+    driver: bridge

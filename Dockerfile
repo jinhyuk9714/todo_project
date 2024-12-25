@@ -8,19 +8,8 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:17-jre
 WORKDIR /app
 
-# 필요한 유틸리티 설치 (MariaDB 클라이언트 포함)
-RUN apt-get update && apt-get install -y \
-    iputils-ping \
-    telnet \
-    mariadb-client && \
-    rm -rf /var/lib/apt/lists/*
-
-# 애플리케이션 복사 및 실행 준비
+# 애플리케이션 복사
 COPY --from=build /app/target/*.jar app.jar
-COPY wait-for-it.sh /app/wait-for-it.sh
-
-# wait-for-it.sh 실행 권한 추가
-RUN chmod +x /app/wait-for-it.sh
 
 EXPOSE 8080
 

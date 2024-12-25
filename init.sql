@@ -2,10 +2,12 @@ CREATE DATABASE IF NOT EXISTS testdb;
 
 USE testdb;
 
-CREATE TABLE example_table (
+CREATE TABLE IF NOT EXISTS tasks (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    title VARCHAR(255) NOT NULL,
+    completed BOOLEAN DEFAULT FALSE
 );
 
-INSERT INTO example_table (name) VALUES ('Example Name');
+INSERT INTO tasks (title, completed) VALUES
+('Sample Task 1', FALSE),
+('Sample Task 2', TRUE);
