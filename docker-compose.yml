@@ -1,14 +1,14 @@
 version: '3.8'
 services:
   app:
-    build: .
+    image: todo-app-with-utils  # 새로운 이미지 이름
     ports:
       - "8080:8080"
     depends_on:
       - db
-    command: ["/app/wait-for-it.sh", "db:3306", "--timeout=30", "--strict", "--", "java", "-jar", "app.jar"]
     networks:
       - todo_app-network
+    command: ["/app/wait-for-it.sh", "db:3306", "--timeout=30", "--strict", "--", "java", "-jar", "app.jar"]
 
   db:
     image: mariadb:latest
