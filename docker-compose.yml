@@ -7,22 +7,11 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
-    depends_on:
-      - db
-    networks:
-      - todo_network
-
-  db:
-    image: mariadb:latest
     environment:
-      MYSQL_ROOT_PASSWORD: 1111
-      MYSQL_DATABASE: testdb
-      MYSQL_USER: test_user
-      MYSQL_PASSWORD: password
-    ports:
-      - "3306:3306"
-    volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      SPRING_DATASOURCE_URL: jdbc:postgresql://dpg-ctlt14ij1k6c73d2l0jg-a.singapore-postgres.render.com:5432/todo_db_ynkj
+      SPRING_DATASOURCE_USERNAME: todo_db_ynkj_user
+      SPRING_DATASOURCE_PASSWORD: EQCkFOvUo3hBckToS1aNTv0Dla5zMQ6Q
+      SPRING_DATASOURCE_DRIVER-CLASS-NAME: org.postgresql.Driver
     networks:
       - todo_network
 
