@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:8080/api/todos';
+const API_URL = 'https://todo-project-j3jq.onrender.com/api/todos';
 
 // Fetch all todos from the API
 async function fetchTodos() {
