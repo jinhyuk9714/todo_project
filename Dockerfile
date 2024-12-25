@@ -7,10 +7,17 @@ RUN mvn clean package -DskipTests
 # Stage 2: Run the application
 FROM eclipse-temurin:17-jre
 WORKDIR /app
+
+# 필요한 유틸리티 설치
+RUN apt-get update && apt-get install -y iputils-ping telnet && rm -rf /var/lib/apt/lists/*
+
+# 애플리케이션 복사 및 실행 준비
 COPY --from=build /app/target/*.jar app.jar
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+COPY wait-for-it.sh /app/wait-for-it.sh
 
 # wait-for-it.sh 실행 권한 추가
-COPY wait-for-it.sh /app/wait-for-it.sh
 RUN chmod +x /app/wait-for-it.sh
+
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
