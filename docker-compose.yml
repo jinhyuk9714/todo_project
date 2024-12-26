@@ -8,10 +8,10 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://dpg-ctlt14ij1k6c73d2l0jg-a.singapore-postgres.render.com:5432/todo_db_ynkj
-      SPRING_DATASOURCE_USERNAME: todo_db_ynkj_user
-      SPRING_DATASOURCE_PASSWORD: EQCkFOvUo3hBckToS1aNTv0Dla5zMQ6Q
-      SPRING_DATASOURCE_DRIVER-CLASS-NAME: org.postgresql.Driver
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      SPRING_DATASOURCE_DRIVER-CLASS-NAME: ${SPRING_DATASOURCE_DRIVER-CLASS-NAME}
     networks:
       - todo_network
 
