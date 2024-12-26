@@ -50,3 +50,14 @@ SPRING_DATASOURCE_URL=jdbc:postgresql://<DB_URL>:5432/<DB_NAME>
 SPRING_DATASOURCE_USERNAME=<DB_USERNAME>
 SPRING_DATASOURCE_PASSWORD=<DB_PASSWORD>
 SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
+```
+
+### 2. Docker Compose 실행
+```bash
+docker-compose up --build
+```
+
+### 3. 애플리케이션 접속
+로컬 환경에서 http://localhost:8080에 접속.
+
+
