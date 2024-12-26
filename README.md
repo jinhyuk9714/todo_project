@@ -14,6 +14,10 @@
 
 ---
 
+## 🌟 스크린샷
+![Screenshot 2024-12-26 160455](https://github.com/user-attachments/assets/5a87a138-3575-4a7a-87bc-1bbc99711f92)
+---
+
 ## 🌐 배포된 사이트
 [Todo Application](https://todo-project-j3jq.onrender.com/)에 접속하여 Todo를 관리
 
