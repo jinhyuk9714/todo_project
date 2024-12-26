@@ -40,7 +40,8 @@
 - **Docker**: 로컬 개발 및 테스트 환경 구축
 - **Docker Compose**: 서비스 컨테이너화
 - **Render**: 클라우드 기반 배포
-
+- **UptimeRobot**: Render 애플리케이션의 슬립 상태 방지를 위해 사용
+  
 ---
 
 ## 🐳 Docker로 실행하는 방법
