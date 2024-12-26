@@ -1,17 +1,17 @@
 const API_URL = 'https://todo-project-j3jq.onrender.com/api/todos';
 
-// Fetch all todos from the API
+// Todo 목록 불러오기
 async function fetchTodos() {
     try {
         const response = await axios.get(API_URL);
-        updateUI(response.data); // 데이터를 UI에 업데이트
+        updateUI(response.data); // 데이터를 화면에 업데이트
     } catch (error) {
-        console.error('Error fetching todos:', error);
-        updateUI([]); // 오류가 발생한 경우 UI를 빈 상태로 설정
+        console.error('Todo 목록을 불러오는 중 오류 발생:', error);
+        updateUI([]); // 오류 시 빈 목록 표시
     }
 }
 
-// Update the UI with the given todos
+// 화면에 Todo 항목 업데이트
 function updateUI(todos) {
     const list = document.getElementById('todo-list');
     list.innerHTML = '';
@@ -22,26 +22,43 @@ function updateUI(todos) {
             <span onclick="toggleTodo(${todo.id})" style="cursor: pointer;">
                 ${todo.task}
             </span>
-            <button class="btn btn-danger btn-sm" onclick="deleteTodoWithAnimation(${todo.id}, this)">Delete</button>
+            <div>
+                <button class="btn btn-warning btn-sm" onclick="editTodoPrompt(${todo.id})">수정</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteTodoWithAnimation(${todo.id}, this)">삭제</button>
+            </div>
         `;
         list.appendChild(li);
-
-        // Add animation for newly added items
         addAnimation(li, 'added');
     });
 }
 
-// Toggle the completion status of a todo
+// Todo 수정 요청
+async function editTodoPrompt(id) {
+    const newTask = prompt("수정할 내용을 입력하세요:");
+    if (!newTask) {
+        alert("내용이 비어 있습니다.");
+        return;
+    }
+
+    try {
+        await axios.put(`${API_URL}/${id}`, { task: newTask, isCompleted: false });
+        fetchTodos(); // 수정 후 목록 갱신
+    } catch (error) {
+        console.error('Todo 수정 중 오류 발생:', error);
+    }
+}
+
+// Todo 완료 상태 토글
 async function toggleTodo(id) {
     try {
         await axios.patch(`${API_URL}/${id}/toggle`);
         fetchTodos(); // 목록 갱신
     } catch (error) {
-        console.error('Error toggling todo:', error);
+        console.error('Todo 완료 상태 변경 중 오류 발생:', error);
     }
 }
 
-// Add a new todo
+// Todo 추가
 document.getElementById('todo-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const taskInput = document.getElementById('task-input');
@@ -49,75 +66,74 @@ document.getElementById('todo-form').addEventListener('submit', async (e) => {
 
     try {
         await axios.post(API_URL, { task: newTask, isCompleted: false });
-        taskInput.value = ''; // 입력 필드 초기화
-        fetchTodos(); // 목록 갱신
+        taskInput.value = '';
+        fetchTodos(); // 추가 후 목록 갱신
     } catch (error) {
-        console.error('Error adding todo:', error);
+        console.error('Todo 추가 중 오류 발생:', error);
     }
 });
 
-// Delete a todo with animation
+// Todo 삭제
 async function deleteTodoWithAnimation(id, button) {
     try {
         const item = button.closest('li');
         addAnimation(item, 'removed', async () => {
             await axios.delete(`${API_URL}/${id}`);
-            fetchTodos(); // 목록 갱신
+            fetchTodos(); // 삭제 후 목록 갱신
         });
     } catch (error) {
-        console.error('Error deleting todo:', error);
+        console.error('Todo 삭제 중 오류 발생:', error);
     }
 }
 
-// Delete all completed todos using the backend API
+// 완료된 Todo 삭제
 async function deleteCompletedTodos() {
     try {
-        await axios.delete(`${API_URL}/completed`); // Backend API for deleting completed todos
-        fetchTodos(); // 목록 갱신
+        await axios.delete(`${API_URL}/completed`);
+        fetchTodos(); // 삭제 후 목록 갱신
     } catch (error) {
-        console.error('Error deleting completed todos:', error);
+        console.error('완료된 Todo 삭제 중 오류 발생:', error);
     }
 }
 
-// Filter todos using the backend API
+// Todo 필터링
 async function filterTodos(filter) {
     try {
         const response = await axios.get(`${API_URL}/filter`, {
-            params: { isCompleted: filter } // 문자열 값 전달
+            params: { isCompleted: filter }
         });
-        updateUI(response.data); // 필터링된 데이터로 UI 갱신
+        updateUI(response.data); // 필터링 결과 화면에 반영
     } catch (error) {
-        console.error('Error filtering todos:', error);
+        console.error('Todo 필터링 중 오류 발생:', error);
     }
 }
 
-// Add animation to list items
+// 애니메이션 추가
 function addAnimation(item, className, callback) {
     item.classList.add(className);
     setTimeout(() => {
         item.classList.remove(className);
         if (callback) callback();
-    }, 300); // Animation duration
+    }, 300);
 }
 
-// Event listeners for filter buttons
+// 필터 버튼 이벤트
 document.getElementById('filter-completed').addEventListener('click', () => {
-    filterTodos(true); // 완료된 항목 필터링
+    filterTodos(true);
 });
 document.getElementById('filter-incomplete').addEventListener('click', () => {
-    filterTodos(false); // 미완료 항목 필터링
+    filterTodos(false);
 });
 document.getElementById('filter-all').addEventListener('click', () => {
-    fetchTodos(); // 모든 항목 보기
+    fetchTodos();
 });
 
+// 완료된 Todo 삭제 버튼 이벤트
 document.getElementById('delete-completed').addEventListener('click', async () => {
-    const response = await axios.delete(`${API_URL}/completed`); // DELETE 요청 보내기
-    fetchTodos(); // 목록 갱신
+    await deleteCompletedTodos();
 });
 
-
-// Initial fetch of todos on page load
+// 페이지 로드 시 Todo 목록 불러오기
 document.addEventListener('DOMContentLoaded', () => {
-    fetchTodos(); // 초기 로드시 모든 할 일 항목 로드
+    fetchTodos();
 });

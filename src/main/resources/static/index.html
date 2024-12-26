@@ -27,20 +27,22 @@
     </style>
 </head>
 <body>
+<!-- 수정 버튼이 추가된 HTML -->
 <div class="container mt-5">
     <h1 class="mb-4">To-Do List</h1>
     <div class="btn-group mb-3" role="group" aria-label="Filter Todos">
-        <button id="filter-all" class="btn btn-secondary">All</button>
-        <button id="filter-completed" class="btn btn-secondary">Completed</button>
-        <button id="filter-incomplete" class="btn btn-secondary">Incomplete</button>
+        <button id="filter-all" class="btn btn-secondary">모두 보기</button>
+        <button id="filter-completed" class="btn btn-secondary">완료됨</button>
+        <button id="filter-incomplete" class="btn btn-secondary">미완료</button>
     </div>
     <ul id="todo-list" class="list-group mb-3"></ul>
-    <button id="delete-completed" class="btn btn-danger mb-3">Delete Completed Todos</button>
+    <button id="delete-completed" class="btn btn-danger mb-3">완료된 Todo 삭제</button>
     <form id="todo-form" class="d-flex">
-        <input id="task-input" type="text" class="form-control" placeholder="Enter a task" required>
-        <button type="submit" class="btn btn-primary ms-2">Add</button>
+        <input id="task-input" type="text" class="form-control" placeholder="할 일을 입력하세요" required>
+        <button type="submit" class="btn btn-primary ms-2">추가</button>
     </form>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="script.js"></script>
 </body>

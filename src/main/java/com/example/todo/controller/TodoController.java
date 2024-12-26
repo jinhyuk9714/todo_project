@@ -33,11 +33,11 @@ public class TodoController {
         return new ResponseEntity<>(savedTodo, HttpStatus.CREATED);
     }
 
-    // 특정 Todo 업데이트
+    // 특정 Todo 수정
     @PutMapping("/{id}")
     public ResponseEntity<Todo> updateTodo(@PathVariable Long id, @RequestBody Todo updatedTodo) {
         Todo todo = todoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Todo not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException("Todo를 찾을 수 없습니다: " + id));
         todo.setTask(updatedTodo.getTask());
         todo.setIsCompleted(updatedTodo.getIsCompleted());
         Todo savedTodo = todoRepository.save(todo);
@@ -48,7 +48,7 @@ public class TodoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTodo(@PathVariable Long id) {
         if (!todoRepository.existsById(id)) {
-            throw new RuntimeException("Todo not found with id: " + id);
+            throw new RuntimeException("Todo를 찾을 수 없습니다: " + id);
         }
         todoRepository.deleteById(id);
         return ResponseEntity.noContent().build();
@@ -58,7 +58,7 @@ public class TodoController {
     @PatchMapping("/{id}/toggle")
     public ResponseEntity<Todo> toggleTodo(@PathVariable Long id) {
         Todo todo = todoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Todo not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException("Todo를 찾을 수 없습니다: " + id));
         todo.setIsCompleted(!todo.getIsCompleted());
         Todo updatedTodo = todoRepository.save(todo);
         return ResponseEntity.ok(updatedTodo);
