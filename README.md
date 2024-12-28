@@ -63,6 +63,6 @@ docker-compose up --build
 ```
 
 ### 3. 애플리케이션 접속
-로컬 환경에서 http://localhost:8080에 접속.
+로컬 환경에서 http://localhost:8080 에 접속.
 
 
