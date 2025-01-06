@@ -1,6 +1,6 @@
 package com.example.todo.integration;
 
-import com.example.todo.model.Todo;
+import com.example.todo.entity.Todo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.persistence.EntityManager;
