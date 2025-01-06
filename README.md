@@ -26,9 +26,8 @@
 
 ## 🌟 스크린샷
 ### Todo 관리 화면
-![Todo List](https://github.com/user-attachments/assets/5a87a138-3575-4a7a-87bc-1bbc99711f92)
+![Todo List](https://github.com/user-attachments/assets/93168bbd-a55a-4991-9bf2-2978bbc53fcb)
 
----
 
 ## 🌐 배포된 사이트
 [Todo Application](https://todo-project-j3jq.onrender.com/)  
